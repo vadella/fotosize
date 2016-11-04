@@ -23,7 +23,8 @@ def get_imagesize_PIL(fname):
 
 
 def get_imagesize_PIL2(fname):
-    return get_exif(fname)['ExifImageHeight'], get_exif(fname)['ExifImageWidth']
+    exif = get_exif(fname)
+    return exif['ExifImageHeight'], exif['ExifImageWidth']
 
 
 def get_imagesize_PIL3(fname):
@@ -40,23 +41,23 @@ def get_imagesize_imageio(fname):
 
 
 def get_imagesize_exifread(fname):  # http://stackoverflow.com/a/18027454/1562285
-    ex = exifread.process_file(open(fname, 'rb'), strict=True)
-    return ex['Image XResolution'], ex['Image YResolution']
+    exif = exifread.process_file(open(fname, 'rb'), strict=True)
+    return exif['Image XResolution'], exif['Image YResolution']
 
 
 def get_imagesize_exifread2(fname):
-    ex = exifread.process_file(open(fname, 'rb'), strict=True)
-    return ex['Image ImageLength'], ex['Image ImageWidth']
+    exif = exifread.process_file(open(fname, 'rb'), strict=True)
+    return exif['Image ImageLength'], exif['Image ImageWidth']
 
 
 def get_imagesize_exifread3(fname):
-    ex = exifread.process_file(open(fname, 'rb'), strict=True)
-    return ex['MakerNote CropHiSpeed']
+    exif = exifread.process_file(open(fname, 'rb'), strict=True)
+    return exif['MakerNote CropHiSpeed']
 
 
 def get_imagesize_exifread4(fname):
-    ex = exifread.process_file(open(fname, 'rb'), strict=True)
-    return ex['EXIF ExifImageLength'], ex['EXIF ExifImageWidth']
+    exif = exifread.process_file(open(fname, 'rb'), strict=True)
+    return exif['EXIF ExifImageLength'], exif['EXIF ExifImageWidth']
 
 
 def get_imagesize_wand(fname):
@@ -90,6 +91,7 @@ if __name__ == '__main__':
     filetypes.append(file_nt("20120917_131155 DSC_0159.JPG", "jpeg"))
     filetypes.append(file_nt("20120917_131155 DSC_0159.NEF", "nef"))
     # filetypes.append(file_nt("20120917_131155 DSC_0159.xmp", "xmp"))
+    # @TODO: add method to check into xmp?
 
     methods = [
         "PIL",
@@ -108,3 +110,4 @@ if __name__ == '__main__':
     for method in methods:
         for filetype in filetypes:
             print("%s %s: %s" % (filetype.tag, method, repr(create_eval(method, filetype.filename))))
+            # @TODO: add timers to check the fastest method
