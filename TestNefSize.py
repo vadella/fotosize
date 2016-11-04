@@ -4,6 +4,7 @@ import imageio
 from PIL.ExifTags import TAGS
 import exifread
 from collections import namedtuple
+from rawkit.raw import Raw as rawkit_Raw
 
 
 def get_exif(fname):
@@ -69,6 +70,10 @@ def get_imagesize_wand2(fname):
     with wand_Image(filename=fname) as img:
         return img.page
 
+def get_imagesize_libraw(fname):
+    with rawkit_Raw(filename=fname) as raw:
+        print(raw.Metadata.height, raw.Metadata.width)
+
 
 # def get_imagesize_wand3(fname):
 #     with wand_Image(filename=fname) as img:
@@ -105,6 +110,7 @@ if __name__ == '__main__':
         "exifread4",
         "wand",
         "wand2",
+        "libraw",
     ]
 
     for method in methods:
