@@ -23,7 +23,7 @@ def get_imagesize_PIL(fname):
 
 
 def get_imagesize_PIL2(fname):
-    ret = get_exif(fname)
+    return get_exif(fname)['ExifImageHeight'], get_exif(fname)['ExifImageWidth']
 
 
 def get_imagesize_PIL3(fname):
@@ -103,7 +103,6 @@ if __name__ == '__main__':
         "exifread4",
         "wand",
         "wand2",
-        "wand3",
     ]
 
     for method in methods:
